@@ -72,21 +72,28 @@ function onClick() {
         this.className = 'col bomb';
         finishGame(false)
     } else if (cells[one][two] === 0) {
-        this.className = 'col empty'
+        this.className = 'col empty';
     } else {
-        this.className = 'col empty'
-        console.log(pos)
-        var test = cells[one][two]
-        console.log(test)
-        this.innerHTML = String(test)
+        this.className = 'col empty';
+        var number = cells[one][two]
+        this.innerHTML = String(number)
         this.disabled = true
     }
 };
 
 function onRightClick(e) {
     e.preventDefault()
-    var pos = this.value
-    this.innerHTML = "<img src=flag.png></img>"
+    if (this.className === "col flagged") {
+        this.className = "col"
+        this.addEventListener("click", onClick)
+        this.innerHTML = ""
+    } else {
+        this.innerHTML = "<img src=flag.png></img>"
+        this.removeEventListener("click", onClick)
+        this.className = "col flagged"
+    }
+
+    console.log(this.className)
 };
 
 function checkCell(rows, cols, mines) {
@@ -126,13 +133,19 @@ function finishGame(booleanValue) {
     console.log('eg er i finishgame')
     console.log(booleanValue)
     if (booleanValue) {
-        console.log('you lose nerd', minefield)
+        console.log('you win nerd')
     } else {
-        var test = document.getElementById('minefield').getElementsByClassName('row');
-        var test2 = test.
-        console.log('you lose nerd', minefield)
+        tempBoard = document.getElementById('minefield')
+        tempRows = tempBoard.getElementsByClassName('row')
+        for (i = 0; i < tempRows.length; i++) {
+            buttons = tempRows[i].getElementsByTagName('button')
+            for (j = 0; j < buttons.length; j++) {
+                buttons[j].disabled=true
+            }
+        }
+
+        console.log('you lose nerd')
     };
-    console.log('eftir if')
 };
 
 displayBoard(defaultBoard)
