@@ -1,0 +1,53 @@
+body {
+    text-align: center;
+}
+
+#minefield {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.row {
+    font-size: 9px;
+    height: 37px;
+
+}
+
+
+
+
+.col{
+    font-size: 12px;
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    background-color: #6699ff;
+    box-shadow: 0px 0px 0px transparent;
+    border: 0px solid transparent;
+    text-shadow: 0px 0px 0px transparent;
+    margin: 1px;
+}
+
+.col:hover {
+    background-color: #eee;
+    cursor: pointer;
+}
+
+.col:onclick {
+    background-color: black;
+}
+
+
+.Bomb {
+    background-color: red;
+}
+
+img {
+    height: 35px;
+    width: 35px;
+}
+
+.empty {
+    background-color: aliceblue;
+    text-align: top;
+}

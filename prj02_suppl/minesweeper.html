@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta author="finnbogi18 & hakon19"/>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="style.css">
+        <title>Project 2</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>   
+
+    <body>
+
+        <h1>Project 2</h1>
+        <div id="fields">
+            <label for="_rows">Rows: </label>
+            <input type="number" id="rows" name="_rows" value="10">
+            <label for="_cols">Columns: </label>
+            <input type="number" id="cols" name="_cols" value="10">
+            <label for="_mines">Mines: </label>
+            <input type="number" name="_mines" id="mines" value="10">
+            <button name="test" value="Submit" onclick="doAjax()">Generate</button>
+        </div>
+
+        <div id="minefield"></div>
+        <script src="minesweep.js"></script>
+        <footer>
+
+        </footer>
+    </body>
+</html>
