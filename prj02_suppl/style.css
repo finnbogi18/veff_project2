@@ -8,16 +8,13 @@ body {
 }
 
 .row {
-    font-size: 9px;
     height: 37px;
-
 }
 
 
 
 
 .col{
-    font-size: 12px;
     display: inline-block;
     width: 35px;
     height: 35px;
@@ -26,6 +23,7 @@ body {
     border: 0px solid transparent;
     text-shadow: 0px 0px 0px transparent;
     margin: 1px;
+    vertical-align: bottom;
 }
 
 .col:hover {
@@ -38,7 +36,7 @@ body {
 }
 
 
-.Bomb {
+.bomb {
     background-color: red;
 }
 
@@ -49,5 +47,4 @@ img {
 
 .empty {
     background-color: aliceblue;
-    text-align: top;
 }

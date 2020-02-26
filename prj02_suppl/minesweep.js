@@ -51,8 +51,9 @@ function displayBoard(my_data) {
         row.className = 'row'
         minefield.append(row)
         for (j = 0; j < Number(cols); j++) {
-            var col = document.createElement('span')
+            var col = document.createElement('button')
             var pos = [i, j]
+            console.log(i, j)
             col.value = pos
             col.className = 'col'
             col.addEventListener("click", onClick);
@@ -65,14 +66,20 @@ function displayBoard(my_data) {
 
 function onClick() {
     var pos = this.value
-    console.log(pos[0], pos[1])
-    console.log(cells[pos[0]][pos[1]])
-    if (cells[pos[0]][pos[1]] === 9) {
-        this.className = 'col Bomb';
-        finishGame(false);
-    } else if (cells[pos[0]][pos[1]] === 0) {
+    var one = Number(pos[0])
+    var two = Number(pos[2])
+    if (cells[one][two] === 9) {
+        this.className = 'col bomb';
+        finishGame(false)
+    } else if (cells[one][two] === 0) {
         this.className = 'col empty'
-        this.innerHTML = '1'
+    } else {
+        this.className = 'col empty'
+        console.log(pos)
+        var test = cells[one][two]
+        console.log(test)
+        this.innerHTML = String(test)
+        this.disabled = true
     }
 };
 
@@ -83,6 +90,7 @@ function onRightClick(e) {
 };
 
 function checkCell(rows, cols, mines) {
+    cells = []
     for (i = 0; i < Number(rows); i++) {
         var rows_list = []
         for (j = 0; j < Number(cols); j++) {
@@ -114,12 +122,17 @@ function check_mines(height, width, mines) {
     
 }
 
-function finishGame(win) {
-    if (win === false) {
-        var minefield = document.minefield.children
-        minefield.disabled=true
+function finishGame(booleanValue) {
+    console.log('eg er i finishgame')
+    console.log(booleanValue)
+    if (booleanValue) {
+        console.log('you lose nerd', minefield)
+    } else {
+        var test = document.getElementById('minefield').getElementsByClassName('row');
+        var test2 = test.
         console.log('you lose nerd', minefield)
     };
+    console.log('eftir if')
 };
 
 displayBoard(defaultBoard)
