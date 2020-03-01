@@ -83,6 +83,19 @@ function onClick() {
     }
 };
 
+function recursive_open(x, y) {
+    if (cells[x][y] == 0) {
+        for (n = height - 1; n < height + 2; n++) {
+            for (k = width -1; k < width + 2; k++) {
+                if (cells[n][k] == 0) {
+                    
+                    recursive_open(n, k)
+                };
+            };
+        };
+    };
+};
+
 function onRightClick(e) {
     e.preventDefault()
     var pos = this.value
@@ -120,7 +133,7 @@ function check_mines(height, width, mines) {
     };
     return counter
     
-}
+};
 
 function finishGame(booleanValue) {
     console.log('eg er i finishgame')
