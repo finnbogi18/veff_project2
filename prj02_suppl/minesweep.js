@@ -141,6 +141,10 @@ function finishGame(booleanValue) {
         for (i = 0; i < tempRows.length; i++) {
             buttons = tempRows[i].getElementsByTagName('button')
             for (j = 0; j < buttons.length; j++) {
+                if (cells[i][j] === 9) {
+                    buttons[j].className = "col bomb"
+                    buttons[j].innerHTML = "<img src=bomb.png></img>"
+                }
                 // runnar allt boardið aftur
                 // ef reitur === 9, reveal
                 buttons[j].disabled=true
