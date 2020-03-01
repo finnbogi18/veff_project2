@@ -72,7 +72,7 @@ function onClick() {
         this.className = 'col bomb';
         finishGame(false)
     } else if (cells[one][two] === 0) {
-        this.className = 'col empty';
+        recursive_open(one, two);
     } else {
         this.className = 'col empty';
         var number = cells[one][two]
@@ -83,15 +83,30 @@ function onClick() {
 
 function recursive_open(x, y) {
     if (cells[x][y] == 0) {
-        for (n = height - 1; n < height + 2; n++) {
-            for (k = width -1; k < width + 2; k++) {
-                if (cells[n][k] == 0) {
-                    
+        var n;
+        var k;
+        for (n = x - 1; n < x + 2; n++) {
+            for (k = y -1; k < y + 2; k++) {
+                var n_str = String(n)
+                var k_str = String(k)
+                var id_str = n_str + "," + k_str;
+                var box = document.getElementById(id_str)
+                console.log('hakon',n, k, x, y)
+                if ((n < 0) || (k < 0) || (n > Number(cols.value) - 1) || (k > Number(rows.value) - 1)) {
+                    console.log('Would have gone out of bounds', n, k)
+                } else if ((cells[n][k] == 0) && (box.className == 'col')) {
+                    box.className = 'col empty';
                     recursive_open(n, k)
+                } else if ((cells[n][k] > 0) && (cells[n][k] < 9) && (box.className == 'col')){
+                    box.className = 'col empty';
+                    var number = cells[n][k]
+                    box.innerHTML = String(number)
+                    box.disabled = true
                 };
             };
         };
     };
+    console.log('hakon231',n, k, x, y)
 };
 
 function onRightClick(e) {
