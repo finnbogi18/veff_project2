@@ -1,28 +1,36 @@
+* {
+    font-family: 'Press Start 2P';
+    color: rgb(0, 230, 0);
+    background-color: rgb(30, 30, 30);
+}
 body {
     text-align: center;
+    font-family: 'Press Start 2P';
+}
+
+h1 {
+    font-size: 60px;
+}
+input {
+    border: 1.5px solid rgb(0, 180, 0);
+    width: 50px;
 }
 
 #minefield {
     display: inline-block;
     margin-top: 10px;
+    white-space: nowrap;
+    border: 3px solid rgb(0, 180, 0);
+    background-color: rgb(255, 255, 255);
 }
-
-.row {
-    height: 37px;
-}
-
-
-
 
 .col{
     display: inline-block;
-    width: 35px;
-    height: 35px;
-    background-color: #6699ff;
-    box-shadow: 0px 0px 0px transparent;
-    border: 0px solid transparent;
-    text-shadow: 0px 0px 0px transparent;
+    width: 20px;
+    height: 20px;
+    background-color: rgb(180, 180, 180);
     margin: 1px;
+    font-size: 10px;
     vertical-align: bottom;
 }
 
@@ -30,20 +38,56 @@ body {
     cursor: pointer;
 }
 
-.col:onclick {
-    background-color: black;
-}
-
-
 .bomb {
     background-color: red;
+    box-shadow: none;
+    border: none;
+    padding: 0px;
 }
 
+.flagged {
+    padding: 0px;
+}
 img {
-    height: 25px;
-    width: 25px;
+    height: 15px;
+    width: 15px;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
 }
 
 .empty {
-    background-color: aliceblue;
+    background-color: rgb(180, 180, 180);
+    box-shadow: none;
+    border: none;
+}
+
+.one {
+    color: blue;
+}
+
+.two {
+    color: green;
+}
+
+.three {
+    color: red;
+}
+
+.win {
+    background-color: rgb(0, 230, 0);
+}
+
+#result {
+    font-size: 36px;
+    margin: 20px;
+}
+
+.winner {
+    color: rgb(0, 255, 0);
+}
+
+.loser {
+    color: red;
 }

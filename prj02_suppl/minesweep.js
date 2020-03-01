@@ -43,6 +43,8 @@ function doAjax() {
 };
 
 function displayBoard(my_data) {
+    var resultDiv = document.getElementById("result");
+    resultDiv.hidden = true
     var minefield = document.getElementById('minefield');
     minefield.innerHTML = "";
     var rows = my_data.board.rows;
@@ -82,12 +84,20 @@ function onClick() {
     } else if (cells[one][two] === 0) {
         recursive_open(one, two);
     } else {
-        this.className = 'col empty';
         var number = cells[one][two]
+        if (number === 1) {
+            this.className = 'col empty one';
+        } else if (number === 2) {
+            this.className = 'col empty two'
+        } else {
+            this.className = 'col empty three'
+        }
         this.innerHTML = String(number)
         this.disabled = true
     }
-    checkWin()
+    if (checkWin()) {
+        finishGame(true)
+    };
 };
 
 function recursive_open(x, y) {
@@ -103,10 +113,17 @@ function recursive_open(x, y) {
                 if ((n < 0) || (k < 0) || (k > Number(cols.value) - 1) || (n > Number(rows.value) - 1)) {
                 } else if ((cells[n][k] == 0) && (box.className == 'col')) {
                     box.className = 'col empty';
+                    box.disabled = true
                     recursive_open(n, k)
                 } else if ((cells[n][k] > 0) && (cells[n][k] < 9) && (box.className == 'col')) {
-                    box.className = 'col empty';
                     var number = cells[n][k]
+                    if (number === 1) {
+                        box.className = 'col empty one';
+                    } else if (number === 2) {
+                        box.className = 'col empty two'
+                    } else {
+                        box.className = 'col empty three'
+                    }
                     box.innerHTML = String(number)
                     box.disabled = true
                 };
@@ -126,6 +143,9 @@ function onRightClick(e) {
         this.removeEventListener("click", onClick)
         this.className = "col flagged"
     }
+    if (checkWin()) {
+        finishGame(true)
+    };
 
 };
 
@@ -163,43 +183,83 @@ function check_mines(height, width, mines) {
 };
 
 function finishGame(booleanValue) {
+    tempBoard = document.getElementById('minefield')
+    tempRows = tempBoard.getElementsByClassName('row')
+    var resultDiv = document.getElementById("result")
+
     if (booleanValue) {
-        console.log('you win nerd')
+        for (i = 0; i < tempRows.length; i++) {
+            buttons = tempRows[i].getElementsByTagName('button')
+            for (j = 0; j < buttons.length; j++) {
+                buttons[j].disabled = true
+                if (cells[i][j] != 9) {
+                    var number = cells[i][j]
+                    if (number === 1) {
+                        buttons[j].className = 'col empty one win';
+                    } else if (number === 2) {
+                        buttons[j].className = 'col empty two win'
+                    } else {
+                        buttons[j].className = 'col empty three win'
+                    };
+                };
+            };
+        };
+        resultDiv.innerHTML = "You win!"
+        resultDiv.hidden = false
+        resultDiv.className = "winner"
+        
     } else {
-        tempBoard = document.getElementById('minefield')
-        tempRows = tempBoard.getElementsByClassName('row')
         for (i = 0; i < tempRows.length; i++) {
             buttons = tempRows[i].getElementsByTagName('button')
             for (j = 0; j < buttons.length; j++) {
                 if (cells[i][j] === 9) {
                     buttons[j].className = "col bomb"
                     buttons[j].innerHTML = "<img src=bomb.png></img>"
-                }
-                // runnar allt boardið aftur
-                // ef reitur === 9, reveal
+                };
                 buttons[j].disabled=true
-            }
-        }
+            };
+        };
 
-        console.log('you lose nerd')
+        resultDiv.innerHTML = "You lost!"
+        resultDiv.hidden = false
+        resultDiv.className = "loser"
     };
 };
 
 function checkWin() {
     var status = true
+    var i;
+    var j;
     for (i = 0; i < cells.length; i++) {
         for (j = 0; j < cells[i].length; j++) {
-            if (cells[i][j] === 9) {
-                var temp_id = String(i) + "," + String(j)
-                var mine = document.getElementById(temp_id)
-                if (mine.className != "col flagged") {
+            var temp_id = String(i) + "," + String(j);
+            var botton = document.getElementById(temp_id);
+            console.log(botton.className, cells[i][j], i, j)
+            if ((cells[i][j] === 0) && (botton.className != "col empty")) {
+                status = false
+            } else if (cells[i][j] === 1) {
+                if (botton.className != "col empty one") {
                     status = false
                 };
-            }
-        }
-    }
-    console.log('vinna?', status)
+            } else if (cells[i][j] === 2) {
+                if (botton.className != "col empty two") {
+                    status = false
+                };
+            } else if ((cells[i][j] >= 3) && (cells[i][j] < 9)) {
+                if (botton.className != "col empty three") {
+                    status = false
+                }
+            } else if (cells[i][j] === 9) {
+                if (botton.className != "col flagged") {
+                    status = false 
+                };
+            };
+
+
+            };
+        };
     return status
-}
+
+};
 
 displayBoard(defaultBoard)
