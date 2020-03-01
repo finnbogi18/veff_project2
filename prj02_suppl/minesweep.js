@@ -7,11 +7,21 @@ function doAjax() {
     var cols = document.getElementById("cols")
     var mines = document.getElementById("mines")
 
-    var paramValue = {
-        "rows":rows.value,  
-        "cols":cols.value,
-        "mines":mines.value
-    }
+    if (rows.value === "" || cols.value === "" || mines.value === "") {
+        var paramValue = {
+            "rows":"10",  
+            "cols":"10",
+            "mines":"10"
+        }
+    } else {
+        console.log(isNaN(rows.value))
+        var paramValue = {
+            "rows":rows.value,  
+            "cols":cols.value,
+            "mines":mines.value
+        }
+    };
+
     console.log(paramValue)
 
     //The URL to which we will send the request
@@ -53,7 +63,6 @@ function displayBoard(my_data) {
         for (j = 0; j < Number(cols); j++) {
             var col = document.createElement('button')
             var pos = [i, j]
-            console.log(i, j)
             col.value = pos
             col.className = 'col'
             col.addEventListener("click", onClick);
@@ -66,8 +75,10 @@ function displayBoard(my_data) {
 
 function onClick() {
     var pos = this.value
-    var one = Number(pos[0])
-    var two = Number(pos[2])
+    var test = pos.split(",")
+    var one = test[0]
+    var two = test[1]
+    console.log(pos)
     if (cells[one][two] === 9) {
         this.className = 'col bomb';
         finishGame(false)
@@ -79,6 +90,7 @@ function onClick() {
         this.innerHTML = String(number)
         this.disabled = true
     }
+    checkWin()
 };
 
 function recursive_open(x, y) {
@@ -167,5 +179,22 @@ function finishGame(booleanValue) {
         console.log('you lose nerd')
     };
 };
+
+function checkWin() {
+    var status = true
+    for (i = 0; i < cells.length; i++) {
+        for (j = 0; j < cells[i].length; j++) {
+            if (cells[i][j] === 9) {
+                var temp_id = String(i) + "," + String(j)
+                var mine = document.getElementById(temp_id)
+                if (mine.className != "col flagged") {
+                    status = false
+                };
+            }
+        }
+    }
+    console.log('vinna?', status)
+    return status
+}
 
 displayBoard(defaultBoard)
