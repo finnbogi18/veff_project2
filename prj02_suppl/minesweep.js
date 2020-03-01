@@ -130,6 +130,7 @@ function check_mines(height, width, mines) {
 }
 
 function finishGame(booleanValue) {
+    console.log(cells)
     console.log('eg er i finishgame')
     console.log(booleanValue)
     if (booleanValue) {
@@ -140,6 +141,8 @@ function finishGame(booleanValue) {
         for (i = 0; i < tempRows.length; i++) {
             buttons = tempRows[i].getElementsByTagName('button')
             for (j = 0; j < buttons.length; j++) {
+                // runnar allt boardið aftur
+                // ef reitur === 9, reveal
                 buttons[j].disabled=true
             }
         }
