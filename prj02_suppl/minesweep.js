@@ -14,7 +14,6 @@ function doAjax() {
             "mines":"10"
         }
     } else {
-        console.log(isNaN(rows.value))
         var paramValue = {
             "rows":rows.value,  
             "cols":cols.value,
@@ -22,7 +21,6 @@ function doAjax() {
         }
     };
 
-    console.log(paramValue)
 
     //The URL to which we will send the request
     var url = 'https://veff213-minesweeper.herokuapp.com/api/v1/minesweeper';
@@ -76,9 +74,8 @@ function displayBoard(my_data) {
 function onClick() {
     var pos = this.value
     var test = pos.split(",")
-    var one = test[0]
-    var two = test[1]
-    console.log(pos)
+    var one = Number(test[0])
+    var two = Number(test[1])
     if (cells[one][two] === 9) {
         this.className = 'col bomb';
         finishGame(false)
@@ -98,18 +95,16 @@ function recursive_open(x, y) {
         var n;
         var k;
         for (n = x - 1; n < x + 2; n++) {
-            for (k = y -1; k < y + 2; k++) {
+            for (k = y - 1; k < y + 2; k++) {
                 var n_str = String(n)
                 var k_str = String(k)
                 var id_str = n_str + "," + k_str;
                 var box = document.getElementById(id_str)
-                console.log('hakon',n, k, x, y)
-                if ((n < 0) || (k < 0) || (n > Number(cols.value) - 1) || (k > Number(rows.value) - 1)) {
-                    console.log('Would have gone out of bounds', n, k)
+                if ((n < 0) || (k < 0) || (k > Number(cols.value) - 1) || (n > Number(rows.value) - 1)) {
                 } else if ((cells[n][k] == 0) && (box.className == 'col')) {
                     box.className = 'col empty';
                     recursive_open(n, k)
-                } else if ((cells[n][k] > 0) && (cells[n][k] < 9) && (box.className == 'col')){
+                } else if ((cells[n][k] > 0) && (cells[n][k] < 9) && (box.className == 'col')) {
                     box.className = 'col empty';
                     var number = cells[n][k]
                     box.innerHTML = String(number)
@@ -118,7 +113,6 @@ function recursive_open(x, y) {
             };
         };
     };
-    console.log('hakon231',n, k, x, y)
 };
 
 function onRightClick(e) {
@@ -133,7 +127,6 @@ function onRightClick(e) {
         this.className = "col flagged"
     }
 
-    console.log(this.className)
 };
 
 function checkCell(rows, cols, mines) {
@@ -170,9 +163,6 @@ function check_mines(height, width, mines) {
 };
 
 function finishGame(booleanValue) {
-    console.log(cells)
-    console.log('eg er i finishgame')
-    console.log(booleanValue)
     if (booleanValue) {
         console.log('you win nerd')
     } else {
