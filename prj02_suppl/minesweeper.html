@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta author="finnbogi18 & hakon19"/>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="finnbogi18 & hakon19"/>
+        <meta name="description" content="Best minesweeper ever made for assignemnt 2 in T-213-VEFF">
+        <meta name="keywords" content="Minesweeper, javascript, retro, 8bit">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
         <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
-        <title>Project 2</title>
+        <title>Minesweeper</title>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>   
 
@@ -14,20 +16,19 @@
 
         <h1>Minesweeper</h1>
         <div id="fields">
-            <label for="_rows">Rows: </label>
+            <label for="rows">Rows: </label>
             <input type="number" id="rows" name="_rows" value="10">
-            <label for="_cols">Columns: </label>
+            <label for="cols">Columns: </label>
             <input type="number" id="cols" name="_cols" value="10">
-            <label for="_mines">Mines: </label>
+            <label for="mines">Mines: </label>
             <input type="number" name="_mines" id="mines" value="10">
             <button name="test" value="Submit" onclick="doAjax()">Generate</button>
         </div>
-        <div id="result" hidden="true"></div>
+        <div id="result" hidden>Test</div>
 
         <div id="minefield"></div>
         <script src="minesweep.js"></script>
         <footer>
-
         </footer>
     </body>
 </html>
