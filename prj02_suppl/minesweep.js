@@ -234,7 +234,6 @@ function checkWin() {
         for (j = 0; j < cells[i].length; j++) {
             var temp_id = String(i) + "," + String(j);
             var botton = document.getElementById(temp_id);
-            console.log(botton.className, cells[i][j], i, j)
             if ((cells[i][j] === 0) && (botton.className != "col empty")) {
                 status = false
             } else if (cells[i][j] === 1) {
@@ -262,4 +261,4 @@ function checkWin() {
 
 };
 
-displayBoard(defaultBoard)
+doAjax()
