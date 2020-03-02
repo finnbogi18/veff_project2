@@ -276,5 +276,9 @@ function checkWin() {
     return status
 };
 
-displayBoard(defaultBoard);
+function noInternet() {
+    displayBoard(defaultBoard)
+}
+
+
 doAjax();
