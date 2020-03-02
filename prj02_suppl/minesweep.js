@@ -276,4 +276,5 @@ function checkWin() {
     return status
 };
 
-doAjax()
+displayBoard(defaultBoard);
+doAjax();
