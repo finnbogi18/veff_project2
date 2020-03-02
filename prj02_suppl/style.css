@@ -96,5 +96,8 @@ img {
     display: block;
     margin: 0 auto;
     margin-top: 30px;
+}
 
+#explain {
+    font-size: 8px;
 }

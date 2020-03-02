@@ -277,6 +277,8 @@ function checkWin() {
 };
 
 function noInternet() {
+    /* In case someone tries to play without internet,
+    then that person can click a button that generates the default board.*/
     displayBoard(defaultBoard)
 }
 
