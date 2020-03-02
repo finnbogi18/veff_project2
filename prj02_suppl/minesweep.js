@@ -46,47 +46,50 @@ function displayBoard(my_data) {
     var resultDiv = document.getElementById("result");
     resultDiv.hidden = true
     var minefield = document.getElementById('minefield');
-    minefield.innerHTML = "";
+    //empties the minefield.
+    minefield.innerHTML = ""
     var rows = my_data.board.rows;
     var cols = my_data.board.cols;
-    var minePos = my_data.board.minePositions
+    var minePos = my_data.board.minePositions;
 
     var i;
     var j;
-    var cells = checkCell(rows, cols, minePos);
-    console.log(cells)
+    cells = checkCell(rows, cols, minePos);
 
     for (i = 0; i < Number(rows); i++) {
         var row = document.createElement('div')
         row.className = 'row'
         minefield.append(row)
+        //Creates the buttons for the minefield.
         for (j = 0; j < Number(cols); j++) {
             var col = document.createElement('button')
             var pos = [i, j]
             col.value = pos
             col.className = 'col'
-            col.addEventListener("click", onClick);
-            col.addEventListener("contextmenu", onRightClick);
+            col.addEventListener("click", onClick)
+            col.addEventListener("contextmenu", onRightClick)
             col.id = String(pos)
             row.append(col)
-        };        
-    };
+        }       
+    }
 };
 
 function onClick() {
-    var pos = this.value
-    var test = pos.split(",")
-    var one = Number(test[0])
-    var two = Number(test[1])
+    /* Reveals the field that is clicked on and calls the functions needed to open 
+    scan nearby field and open them too if needed. */
+    var pos = this.value;
+    var test = pos.split(",");
+    var one = Number(test[0]);
+    var two = Number(test[1]);
     if (cells[one][two] === 9) {
-        this.className = 'col bomb';
+        this.className = 'col bomb'
         finishGame(false)
     } else if (cells[one][two] === 0) {
-        recursive_open(one, two);
+        recursive_open(one, two)
     } else {
         var number = cells[one][two]
         if (number === 1) {
-            this.className = 'col empty one';
+            this.className = 'col empty one'
         } else if (number === 2) {
             this.className = 'col empty two'
         } else {
@@ -97,10 +100,13 @@ function onClick() {
     }
     if (checkWin()) {
         finishGame(true)
-    };
+    }
 };
 
 function recursive_open(x, y) {
+    /* This function goes recursively through all empty fields and 'opens' them.
+    It opens fields that contain numbers if a empty field is neighboring it. This
+    function follows the project constraints correctly by e.g. disabling open fields. */
     if (cells[x][y] == 0) {
         var n;
         var k;
@@ -116,9 +122,9 @@ function recursive_open(x, y) {
                     box.disabled = true
                     recursive_open(n, k)
                 } else if ((cells[n][k] > 0) && (cells[n][k] < 9) && (box.className == 'col')) {
-                    var number = cells[n][k]
+                    var number = cells[n][k];
                     if (number === 1) {
-                        box.className = 'col empty one';
+                        box.className = 'col empty one'
                     } else if (number === 2) {
                         box.className = 'col empty two'
                     } else {
@@ -126,13 +132,15 @@ function recursive_open(x, y) {
                     }
                     box.innerHTML = String(number)
                     box.disabled = true
-                };
-            };
-        };
-    };
+                }
+            }
+        }
+    }
 };
 
 function onRightClick(e) {
+    /* Flags the cell and unflags it if it's already flagged,
+    removes the ability to click on the cell if it's flagged. */
     e.preventDefault()
     if (this.className === "col flagged") {
         this.className = "col"
@@ -145,53 +153,61 @@ function onRightClick(e) {
     }
     if (checkWin()) {
         finishGame(true)
-    };
+    }
 
 };
 
 function checkCell(rows, cols, mines) {
-    cells = []
+    /* Creates an array of the board with the value of each position
+    at the correct index. */
+    cells = [];
     for (i = 0; i < Number(rows); i++) {
         var rows_list = []
         for (j = 0; j < Number(cols); j++) {
-            var num_mines = 69
+            var num_mines;
             num_mines = check_mines(i, j, mines)
             rows_list.push(num_mines)
-        };
+        }
         cells.push(rows_list)
 
-    };
+    }
     return cells
 };
 
 function check_mines(height, width, mines) {
-    var counter = 0
-    var bomb = 9
+    /* Checks each position on the board and if any bombs are near,
+    marks the position with the number of nearby bombs, or marks it as a bomb
+    if that position is a bomb. */
+    var counter = 0;
+    var bomb = 9;
     for (n = height - 1; n < height + 2; n++) {
         for (k = width -1; k < width + 2; k++) {
             for (l = 0; l < mines.length; l++) {
                 if ((mines[l][0]===n) && (mines[l][1]===k)) {
-                    var counter = counter + 1
+                    var counter = counter + 1;
                 } else if ((mines[l][0] === height) && (mines[l][1] === width)) {
                     return bomb 
                 }
-            };
-        };
-    };
+            }
+        }
+    }
     return counter
     
 };
 
 function finishGame(booleanValue) {
-    tempBoard = document.getElementById('minefield')
-    tempRows = tempBoard.getElementsByClassName('row')
-    var resultDiv = document.getElementById("result")
+    /* Adjusts to the board to the correct state if the player has won
+    or lost the game. */
+
+    var tempBoard = document.getElementById('minefield');
+    var tempRows = tempBoard.getElementsByClassName('row');
+    var resultDiv = document.getElementById("result");
 
     if (booleanValue) {
         for (i = 0; i < tempRows.length; i++) {
-            buttons = tempRows[i].getElementsByTagName('button')
+            var buttons = tempRows[i].getElementsByTagName('button')
             for (j = 0; j < buttons.length; j++) {
-                buttons[j].disabled = true
+                buttons[j].disabled = true //Disables all the buttons on the board.
                 if (cells[i][j] != 9) {
                     var number = cells[i][j]
                     if (number === 1) {
@@ -200,66 +216,65 @@ function finishGame(booleanValue) {
                         buttons[j].className = 'col empty two win'
                     } else {
                         buttons[j].className = 'col empty three win'
-                    };
-                };
-            };
-        };
+                    }
+                }
+            }
+        }
         resultDiv.innerHTML = "You win!"
         resultDiv.hidden = false
         resultDiv.className = "winner"
         
-    } else {
+    } else { //Reveals all of the bombs and disabled the board.
         for (i = 0; i < tempRows.length; i++) {
             buttons = tempRows[i].getElementsByTagName('button')
-            for (j = 0; j < buttons.length; j++) {
+            for (j = 0; j < buttons.length; j++) { 
                 if (cells[i][j] === 9) {
                     buttons[j].className = "col bomb"
                     buttons[j].innerHTML = "<img src=bomb.png></img>"
-                };
+                }
                 buttons[j].disabled=true
-            };
-        };
+            }
+        }
 
         resultDiv.innerHTML = "You lost!"
         resultDiv.hidden = false
         resultDiv.className = "loser"
-    };
+    }
 };
 
 function checkWin() {
-    var status = true
+    /* Checks every button to see if it's in the correct state for a win, 
+    returns true if the player has won. */
+    var status = true;
     var i;
     var j;
     for (i = 0; i < cells.length; i++) {
         for (j = 0; j < cells[i].length; j++) {
             var temp_id = String(i) + "," + String(j);
-            var botton = document.getElementById(temp_id);
-            console.log(botton.className, cells[i][j], i, j)
-            if ((cells[i][j] === 0) && (botton.className != "col empty")) {
+            var tempButton = document.getElementById(temp_id);
+            if ((cells[i][j] === 0) && (tempButton.className != "col empty")) {
                 status = false
             } else if (cells[i][j] === 1) {
-                if (botton.className != "col empty one") {
+                if (tempButton.className != "col empty one") {
                     status = false
                 };
             } else if (cells[i][j] === 2) {
-                if (botton.className != "col empty two") {
+                if (tempButton.className != "col empty two") {
                     status = false
                 };
             } else if ((cells[i][j] >= 3) && (cells[i][j] < 9)) {
-                if (botton.className != "col empty three") {
+                if (tempButton.className != "col empty three") {
                     status = false
                 }
             } else if (cells[i][j] === 9) {
-                if (botton.className != "col flagged") {
+                if (tempButton.className != "col flagged") {
                     status = false 
-                };
-            };
-
-
-            };
-        };
+                }
+            }
+        }
+    }
     return status
-
 };
 
-displayBoard(defaultBoard)
+//Runs the default board when the site is loaded.
+displayBoard(defaultBoard);
